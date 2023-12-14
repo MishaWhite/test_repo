@@ -20,13 +20,18 @@ def hours_validator(value):
             raise serializers.ValidationError('Wrong type order')
         last_type = list_item.get('type')
         if value <= last_value:
-            raise serializers.ValidationError('Wrong value order')
+            raise serializers.ValidationError('Wrong value or time order')
         last_value = value
 
 
 class RestaurantHoursSerialiser(serializers.Serializer):
-    week_day = serializers.ChoiceField(choices=WEEK_DAYS)
-    hours = serializers.DictField(required=True, validators=[hours_validator, ])
+    monday = serializers.ListField(required=True, validators=[hours_validator, ])
+    tuesday = serializers.ListField(required=True, validators=[hours_validator, ])
+    wednesday = serializers.ListField(required=True, validators=[hours_validator, ])
+    thursday = serializers.ListField(required=True, validators=[hours_validator, ])
+    friday = serializers.ListField(required=True, validators=[hours_validator, ])
+    saturday = serializers.ListField(required=True, validators=[hours_validator, ])
+    sunday = serializers.ListField(required=True, validators=[hours_validator, ])
 
     class Meta:
         fields = ['week_day', 'hours']

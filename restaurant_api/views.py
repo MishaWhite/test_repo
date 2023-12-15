@@ -32,11 +32,15 @@ class RestHoursView(APIView):
                             else:
                                 new_key = key
                             r_date = datetime.utcfromtimestamp(item.get('value')).time()
-                            s_time = r_date.strftime("%I:%M %p") if r_date.minute else r_date.strftime("%I %p")
+                            s_time = f'{r_date.hour}' + \
+                                     (f':{r_date.minute}' if r_date.minute else '') + \
+                                     f' {r_date.strftime("%p")}'
                             new_dict[new_key] += f'{s_time} - '
                         if item_type == 'close':
                             r_date = datetime.utcfromtimestamp(item.get('value')).time()
-                            s_time = r_date.strftime("%I:%M %p") if r_date.minute else r_date.strftime("%I %p")
+                            s_time = f'{r_date.hour}' + \
+                                     (f':{r_date.minute}' if r_date.minute else '') + \
+                                     f' {r_date.strftime("%p")}'
                             new_dict[new_key] += s_time
                 result = ''
             for key, value in new_dict.items():
